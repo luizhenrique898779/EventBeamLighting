@@ -1,0 +1,219 @@
+/* Fundo geral */
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  font-family: 'Poppins', Arial, sans-serif;
+}
+
+body {
+  background:
+    radial-gradient(circle at top left, #c084fc44, transparent 50%),
+    radial-gradient(circle at bottom right, #a855f744, transparent 50%),
+    linear-gradient(135deg, #c084fc 0%, #a855f7 25%, #7c3aed 50%, #4c1d95 75%, #000000 100%);
+  color: #fff;
+  padding: 0;
+  overflow-y: auto;
+  min-height: 100vh;
+}
+
+/* GRID DE PONTOS */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(#ff000012 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Títulos */
+h1, h2 {
+  text-align: center;
+  color: #00ffcc;
+}
+
+/* Navbar */
+.navbar {
+  position: relative;
+  z-index: 2;
+  background: #8d09dad5;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links li a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.nav-links li a:hover {
+  color: #00ffcc;
+}
+
+/* Botão Admin */
+#adminBtn {
+  background: #00ffcc;
+  color: #000;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+#adminBtn:hover {
+  background: #00cc99;
+}
+
+/* Cards de produtos */
+.produto-card {
+  background: #d131dfd7;
+  padding: 15px;
+  border-radius: 10px;
+  margin: 10px;
+  display: inline-block;
+  width: 220px;
+  vertical-align: top;
+  box-shadow: 0 0 10px rgba(71, 71, 71, 0.747);
+  transition: transform 0.2s;
+}
+.produto-card:hover {
+  transform: scale(1.05);
+}
+
+.produto-card img {
+  width: 100%;
+  border-radius: 5px;
+}
+
+/* Painel Admin (fixo à direita) */
+.admin-panel {
+  position: fixed;
+  top: 70px;
+  right: 20px;
+  width: 300px;
+  max-width: 35%;
+  height: calc(100vh - 90px);
+  overflow-y: auto;
+  background: rgba(141,9,218,0.39); /* mantém cor original com transparência */
+  padding: 20px;
+  border-radius: 10px 0 0 10px;
+  margin: 0;
+  z-index: 999;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+}
+
+/* Modal Login */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.7);
+}
+
+.modal-content {
+  background: #1a1a1a;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  color: #fff;
+  box-shadow: 0 0 15px rgba(0,255,204,0.3);
+}
+
+.close {
+  float: right;
+  font-size: 22px;
+  cursor: pointer;
+  color: #00ffcc;
+}
+.close:hover {
+  color: #00cc99;
+}
+
+/* Notificação */
+#notificacao {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #00ffcc;
+  color: #000;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  display: none;
+}
+
+/* Botões arredondados e estilos gerais */
+button,
+input[type="button"],
+input[type="submit"],
+#loginAdmin {
+  background: #00ffcc;
+  color: #000;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s, transform 0.2s;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+button:hover,
+input[type="button"]:hover,
+input[type="submit"]:hover,
+#loginAdmin:hover {
+  background: #00cc99;
+  transform: translateY(-2px);
+}
+
+button:active,
+input[type="button"]:active,
+input[type="submit"]:active,
+#loginAdmin:active {
+  transform: translateY(0);
+}
+
+/* Ajuste do conteúdo principal para não ficar oculto pelo painel admin */
+.main-content {
+  margin-right: 340px; /* leva em conta largura do painel + espaçamento */
+  transition: margin 0.25s ease;
+}
+
+/* Responsividade: em telas pequenas o painel vira bloco normal */
+@media (max-width: 900px) {
+  .admin-panel {
+    position: static;
+    width: auto;
+    height: auto;
+    border-radius: 10px;
+    margin: 20px;
+    box-shadow: none;
+  }
+  .main-content {
+    margin-right: 0;
+  }
+}

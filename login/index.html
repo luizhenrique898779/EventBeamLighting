@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bem-Vindo à EB Lighting</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <div class="container" id="container">
+        <!-- Cadastro -->
+        <div class="form-container sign-up">
+            <form id="formCadastro">
+                <h1>Criar uma conta</h1>
+                <span>Utilize seu e-mail para se cadastrar</span>
+                <input type="text" id="nomeCadastro" placeholder="Nome" required>
+                <input type="email" id="emailCadastro" placeholder="Email" required>
+                <input type="password" id="senhaCadastro" placeholder="Senha" required>
+                <button type="submit">Cadastrar-se</button>
+                <p class="mensagem" id="msgCadastro"></p>
+            </form>
+        </div>
+
+        <!-- Login -->
+        <div class="form-container sign-in">
+            <form id="formLogin">
+                <h1>Entrar</h1>
+                <span>Use seu e-mail e senha</span>
+                <input type="email" id="emailLogin" placeholder="Email" required>
+                <input type="password" id="senhaLogin" placeholder="Senha" required>
+                <button type="submit">Entrar</button>
+                <p class="mensagem" id="msgLogin"></p>
+            </form>
+        </div>
+
+        <!-- Toggle -->
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>Bem-vindo de volta!</h1>
+                    <p>Insira seus dados pessoais para usar todos os recursos do site</p>
+                    <button class="hidden" id="login">Entrar</button>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <h1>Olá, Como Vai!</h1>
+                    <p>Entre com seus dados pessoais para usar todos os recursos do site</p>
+                    <button class="hidden" id="register">Cadastrar-se</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="login.js" .js"></script>
+</body>
+
+</html>

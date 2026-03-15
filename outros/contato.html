@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Contato - EB Lighting</title>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* FUNDO */
+        body {
+            font-family: Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, #c084fc44, transparent 50%),
+                radial-gradient(circle at bottom right, #a855f744, transparent 50%),
+                linear-gradient(135deg, #c084fc 0%, #a855f7 25%, #7c3aed 50%, #4c1d95 75%, #000000 100%);
+            color: #fff;
+            text-align: center;
+            padding: 50px;
+            margin: 0;
+            overflow-y: auto;
+            min-height: 100vh;
+        }
+
+        /* GRID DE PONTOS */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image:
+                radial-gradient(#ffffff12 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Conteúdo em primeiro plano */
+        header,
+        h1,
+        p,
+        .contato-box {
+            position: relative;
+            z-index: 2;
+        }
+
+        h1 {
+            color: #00ffcc;
+        }
+
+        .navbar {
+            background: #1a1a1a;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: #00ffcc;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .nav-links li a:hover {
+            color: #00ffcc;
+        }
+
+        #adminBtn {
+            background: #7c3aed;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        #adminBtn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 10px #7c3aed;
+        }
+
+        .contato-box {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 40px;
+            width: 400px;
+        }
+
+        input,
+        textarea {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button {
+            background: #00ffcc;
+            color: #000;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #00cc99;
+        }
+    </style>
+    <script src="../auth.js"></script>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header>
+        <nav class="navbar">
+            <h1 class="logo">EB Lighting</h1>
+            <ul class="nav-links">
+                <li><a href="../inicio/inicio.html">Início</a></li>
+                <li><a href="../outros/catalogo.html">Catálogo</a></li>
+                <li><a href="../outros/orcamento.html">Orçamento</a></li>
+                <li><a href="../outros/contato.html">Contato</a></li>
+            </ul>
+            <button id="adminBtn">🔐 Admin</button>
+        </nav>
+    </header>
+
+    <h1>Contato EB Lighting</h1>
+    <p>Preencha os campos abaixo e fale direto no WhatsApp 📲</p>
+
+    <div class="contato-box">
+        <input type="text" id="nome" placeholder="Seu nome">
+        <input type="text" id="email" placeholder="Seu email">
+        <textarea id="mensagem" placeholder="Sua mensagem"></textarea>
+        <button onclick="enviarWhatsApp()">Enviar para WhatsApp</button>
+    </div>
+
+    <script>
+        function enviarWhatsApp() {
+            const nome = document.getElementById("nome").value;
+            const email = document.getElementById("email").value;
+            const mensagem = document.getElementById("mensagem").value;
+
+            // Número do WhatsApp (com DDI e DDD)
+            const numero = "554799206958"; // seu número
+
+            // Texto formatado
+            const texto = `Olá, meu nome é ${nome}. Email: ${email}. Mensagem: ${mensagem}`;
+
+            // Monta link do WhatsApp
+            const url = `https://wa.me/${numero}?text=${encodeURIComponent(texto)}`;
+
+            // Abre no navegador
+            window.open(url, "_blank");
+        }
+    </script>
+</body>
+
+</html>

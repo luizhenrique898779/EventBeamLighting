@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EB Lighting - Locação de Iluminação</title>
+    <!-- fonte mais estilosa via Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="inicio.css">
+    <script src="../auth.js"></script>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header>
+        <nav class="navbar">
+            <h1 class="logo">EB Lighting</h1>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="inicio.html">Início</a></li>
+                <li><a href="../outros/catalogo.html">Catálogo</a></li>
+                <li><a href="../outros/orcamento.html">Orçamento</a></li>
+                <li><a href="../outros/contato.html">Contato</a></li>
+            </ul>
+            <button id="adminBtn">Admin</button>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <!-- Catálogo -->
+        <section class="catalogo">
+            <h2>Nossos Equipamentos</h2>
+            <div class="produtos" id="produtos">
+                <!-- Produtos renderizados via JS -->
+            </div>
+        </section>
+
+        <!-- Painel lateral Admin -->
+        <aside class="admin-panel" id="adminPanel" style="display:none;">
+            <h2>Área de Administração</h2>
+            <div id="listaAdmin">
+                <!-- Lista de produtos editáveis via JS -->
+            </div>
+        </aside>
+    </main>
+
+    <!-- Modal Admin Login -->
+    <div class="modal" id="adminModal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <h2>Login Admin</h2>
+            <input type="email" id="adminEmail" placeholder="Email">
+            <input type="password" id="adminSenha" placeholder="Senha">
+            <button id="loginAdmin">Entrar</button>
+            <p id="msgAdmin"></p>
+        </div>
+    </div>
+
+    <!-- Notificação -->
+    <div id="notificacao"></div>
+
+    <script src="inicio.js"></script>
+</body>
+
+</html>

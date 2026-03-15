@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Orçamentos - EB Lighting</title>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* FUNDO */
+        body {
+            font-family: Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, #c084fc44, transparent 50%),
+                radial-gradient(circle at bottom right, #a855f744, transparent 50%),
+                linear-gradient(135deg, #c084fc 0%, #a855f7 25%, #7c3aed 50%, #4c1d95 75%, #000000 100%);
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+            overflow-y: auto;
+            min-height: 100vh;
+        }
+
+        /* GRID DE PONTOS */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image:
+                radial-gradient(#ffffff12 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Conteúdo em primeiro plano */
+        header,
+        h1,
+        .orcamentos-container {
+            position: relative;
+            z-index: 2;
+        }
+
+        h1 {
+            text-align: center;
+            color: #00ffcc;
+            margin-bottom: 30px;
+        }
+
+        .navbar {
+            background: #1a1a1a;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            color: #00ffcc;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .nav-links li a:hover {
+            color: #00ffcc;
+        }
+
+        #adminBtn {
+            background: #7c3aed;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        #adminBtn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 10px #7c3aed;
+        }
+
+        .orcamentos-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .status-filtro {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .status-filtro button {
+            background: #a855f7;
+            color: #fff;
+            border: 2px solid transparent;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .status-filtro button.ativo {
+            background: #7c3aed;
+            border-color: #00ffcc;
+        }
+
+        .status-filtro button:hover {
+            background: #7c3aed;
+        }
+
+        .solicitacao-card {
+            background: linear-gradient(135deg, #1a1a1a, #2d1b4e);
+            border: 2px solid #a855f7;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.2);
+        }
+
+        .solicitacao-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #a855f744;
+            padding-bottom: 10px;
+        }
+
+        .solicitacao-header h3 {
+            color: #00ffcc;
+            margin: 0;
+        }
+
+        .status-badge {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .status-pendente {
+            background: #f59e0b;
+            color: #000;
+        }
+
+        .status-aceito {
+            background: #10b981;
+            color: #fff;
+        }
+
+        .status-recusado {
+            background: #ef4444;
+            color: #fff;
+        }
+
+        .solicitacao-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-label {
+            color: #a855f7;
+            font-weight: bold;
+            font-size: 12px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .info-valor {
+            color: #fff;
+            font-size: 14px;
+            word-break: break-all;
+        }
+
+        .solicitacao-itens {
+            background: #0d0d0d;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-size: 13px;
+            max-height: 150px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            color: #ccc;
+        }
+
+        .solicitacao-total {
+            font-size: 18px;
+            font-weight: bold;
+            color: #00ffcc;
+            margin: 15px 0;
+            text-align: right;
+        }
+
+        .solicitacao-observacoes {
+            background: #0d0d0d;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-size: 13px;
+            color: #ccc;
+            border-left: 3px solid #a855f7;
+        }
+
+        .solicitacao-acoes {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .botao-aceitar,
+        .botao-recusar {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .botao-aceitar {
+            background: #10b981;
+            color: #fff;
+        }
+
+        .botao-aceitar:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+
+        .botao-recusar {
+            background: #ef4444;
+            color: #fff;
+        }
+
+        .botao-recusar:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+        }
+
+        .mensagem-vazia {
+            text-align: center;
+            padding: 40px;
+            color: #a855f7;
+            font-size: 16px;
+        }
+
+        .cliente-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .solicitacao-info {
+                grid-template-columns: 1fr;
+            }
+
+            .cliente-info {
+                grid-template-columns: 1fr;
+            }
+
+            .status-filtro {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+    <script src="../auth.js"></script>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header>
+        <nav class="navbar">
+            <h1 class="logo">EB Lighting</h1>
+            <ul class="nav-links">
+                <li><a href="../inicio/inicio.html">Início</a></li>
+                <li><a href="../outros/catalogo.html">Catálogo</a></li>
+                <li><a href="../outros/orcamento.html">Orçamentos</a></li>
+                <li><a href="../outros/contato.html">Contato</a></li>
+            </ul>
+            <button id="adminBtn">🔐 Admin</button>
+        </nav>
+    </header>
+
+    <div class="orcamentos-container">
+        <h1>📋 Gerenciador de Orçamentos</h1>
+
+        <!-- Mensagem de acesso restrito -->
+        <div id="avisoAcesso"
+            style="display: none; background: #ef4444; color: #fff; padding: 20px; border-radius: 10px; margin-bottom: 20px; text-align: center; font-weight: bold;">
+             <a href="../inicio/inicio.html"
+                style="color: #fff; text-decoration: underline;"></a>.
+        </div>
+
+        <!-- Filtro de Status -->
+        <div class="status-filtro">
+            <button class="ativo" onclick="filtrarStatus('todas')">Todas</button>
+            <button onclick="filtrarStatus('pendente')">Pendentes</button>
+            <button onclick="filtrarStatus('aceito')">Aceitos</button>
+            <button onclick="filtrarStatus('recusado')">Recusados</button>
+        </div>
+
+        <!-- Lista de Solicitações -->
+        <div id="solicitacoesList"></div>
+    </div>
+
+    <script>
+        let filtroAtual = 'todas';
+
+        // Verificar se é administrador
+        function verificarAcesso() {
+            const isAdmin = localStorage.getItem("usuarioIsAdmin") === "true";
+            const avisoAcesso = document.getElementById("avisoAcesso");
+            const statusFiltro = document.querySelector(".status-filtro");
+
+            if (!isAdmin) {
+                avisoAcesso.style.display = "block";
+                if (statusFiltro) statusFiltro.style.display = "none";
+            } else {
+                avisoAcesso.style.display = "none";
+                if (statusFiltro) statusFiltro.style.display = "flex";
+            }
+        }
+
+        // Carregar e exibir solicitações
+        function carregarSolicitacoes() {
+            const isAdmin = localStorage.getItem("usuarioIsAdmin") === "true";
+            const solicitacoes = JSON.parse(localStorage.getItem("solicitacoes_orcamento")) || [];
+            const lista = document.getElementById("solicitacoesList");
+            lista.innerHTML = "";
+
+            if (solicitacoes.length === 0) {
+                lista.innerHTML = '<div class="mensagem-vazia">Nenhuma solicitação de orçamento encontrada.</div>';
+                return;
+            }
+
+            // Filtrar por status
+            let solicitacoesFiltradas = solicitacoes;
+            if (filtroAtual !== 'todas') {
+                solicitacoesFiltradas = solicitacoes.filter(s => s.status === filtroAtual);
+            }
+
+            // Ordenar por mais recentes primeiro
+            solicitacoesFiltradas.reverse();
+
+            if (solicitacoesFiltradas.length === 0) {
+                lista.innerHTML = `<div class="mensagem-vazia">Nenhuma solicitação com status "${filtroAtual}".</div>`;
+                return;
+            }
+
+            solicitacoesFiltradas.forEach(sol => {
+                const statusClass = `status-${sol.status}`;
+                const statusText = sol.status === 'pendente' ? 'Pendente' : sol.status === 'aceito' ? 'Aceito' : 'Recusado';
+
+                let acoes;
+                if (isAdmin) {
+                    // Admin pode aceitar/recusar
+                    acoes = sol.status === 'pendente'
+                        ? `<div class="solicitacao-acoes">
+                            <button class="botao-aceitar" onclick="responderOrcamento(${sol.id}, 'aceito')">✓ Aceitar</button>
+                            <button class="botao-recusar" onclick="responderOrcamento(${sol.id}, 'recusado')">✗ Recusar</button>
+                          </div>`
+                        : `<div class="solicitacao-acoes">
+                            <button style="flex: 1; padding: 12px; background: #555; color: #fff; border: none; border-radius: 5px; cursor: default;">
+                              Status: ${statusText}
+                            </button>
+                          </div>`;
+                } else {
+                    // Não-admin: apenas visualização
+                    acoes = `<div class="solicitacao-acoes">
+                        <button style="flex: 1; padding: 12px; background: #666; color: #fff; border: none; border-radius: 5px; cursor: default;">
+                          Status: ${statusText} (Apenas para admin)
+                        </button>
+                      </div>`;
+                }
+
+                const card = document.createElement("div");
+                card.className = "solicitacao-card";
+                card.innerHTML = `
+                    <div class="solicitacao-header">
+                        <h3>${sol.nome}</h3>
+                        <span class="status-badge ${statusClass}">${statusText}</span>
+                    </div>
+
+                    <div class="cliente-info">
+                        <div class="info-item">
+                            <div class="info-label">📅 Data do Evento</div>
+                            <div class="info-valor">${sol.data}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">📍 Local</div>
+                            <div class="info-valor">${sol.local}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">✉️ Email</div>
+                            <div class="info-valor">${sol.email}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">📞 Telefone</div>
+                            <div class="info-valor">${sol.telefone}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">📝 Data da Solicitação</div>
+                            <div class="info-valor">${sol.dataSolicitacao}</div>
+                        </div>
+                    </div>
+
+                    <div class="solicitacao-itens">${sol.itens}</div>
+                    <div class="solicitacao-total">Valor Total: R$ ${sol.total},00</div>
+
+                    ${sol.observacoes ? `<div class="solicitacao-observacoes"><strong>Observações:</strong> ${sol.observacoes}</div>` : ''}
+
+                    ${acoes}
+                `;
+                lista.appendChild(card);
+            });
+        }
+
+        // Filtrar por status
+        function filtrarStatus(status) {
+            filtroAtual = status;
+            document.querySelectorAll(".status-filtro button").forEach(btn => {
+                btn.classList.remove("ativo");
+            });
+            event.target.classList.add("ativo");
+            carregarSolicitacoes();
+        }
+
+        // Responder orçamento (aceitar ou recusar)
+        function responderOrcamento(id, resposta) {
+            // Verificar se é admin
+            const isAdmin = localStorage.getItem("usuarioIsAdmin") === "true";
+            if (!isAdmin) {
+                alert("Acesso negado! Apenas administradores podem responder orçamentos.");
+                return;
+            }
+
+            const solicitacoes = JSON.parse(localStorage.getItem("solicitacoes_orcamento")) || [];
+            const solicitacao = solicitacoes.find(s => s.id === id);
+
+            if (!solicitacao) return;
+
+            // Atualizar status
+            solicitacao.status = resposta;
+            localStorage.setItem("solicitacoes_orcamento", JSON.stringify(solicitacoes));
+
+            // Preparar mensagem
+            let titulo = resposta === 'aceito' ? '✓ ORÇAMENTO ACEITO' : '✗ ORÇAMENTO RECUSADO';
+            let emoji = resposta === 'aceito' ? '✅' : '❌';
+
+            const mensagem =
+                `${emoji} *${titulo}*\n\n` +
+                `Olá ${solicitacao.nome},\n\n` +
+                `Seu orçamento foi ${resposta === 'aceito' ? 'ACEITO' : 'RECUSADO'}!\n\n` +
+                `📋 *Detalhes da Solicitação*\n` +
+                `Data do Evento: ${solicitacao.data}\n` +
+                `Local: ${solicitacao.local}\n` +
+                `Valor Total: R$ ${solicitacao.total},00\n\n` +
+                `${resposta === 'aceito'
+                    ? `Entraremos em contato em breve para confirmar todos os detalhes. Obrigado por escolher a EB Lighting! 🎉`
+                    : `Agradecemos o interesse. Disponibilizamos outras opções de serviços. Entre em contato conosco para mais informações.`}`;
+
+            // Enviar para WhatsApp
+            const numero = solicitacao.telefone.replace(/\D/g, '');
+            const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
+            window.open(url, "_blank");
+
+            // Recarregar lista
+            setTimeout(() => {
+                carregarSolicitacoes();
+            }, 500);
+        }
+
+        // Carregar ao abrir a página
+        window.addEventListener("DOMContentLoaded", () => {
+            verificarAcesso();
+            carregarSolicitacoes();
+        });
+
+        // Verificar acesso quando a página fica visível (detecta logout de outra aba)
+        document.addEventListener("visibilitychange", () => {
+            if (!document.hidden) {
+                verificarAcesso();
+                carregarSolicitacoes();
+            }
+        });
+
+        // Recarregar a cada 5 segundos (para sincronização em tempo real)
+        setInterval(() => {
+            verificarAcesso();
+            carregarSolicitacoes();
+        }, 5000);
+    </script>
+</body>
+
+</html>
